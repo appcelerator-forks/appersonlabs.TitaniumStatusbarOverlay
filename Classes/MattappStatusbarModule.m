@@ -101,7 +101,7 @@
 {
     if (![NSThread isMainThread]) {
 		__block id result = nil;
-		TiThreadPerformOnMainThread(^{[self postMessage:args];}, YES);
+		TiThreadPerformOnMainThread(^{[self postMessageInProgress:args];}, YES);
 	}
     
     overlay.hidesActivity = NO;
