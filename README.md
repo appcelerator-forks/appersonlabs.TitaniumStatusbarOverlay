@@ -82,4 +82,5 @@ The statusbaroverlay variable is a reference to the Module object.
 
 Module created by Matt Apperson, based on the open source work of Matthias Tretter
 
-Additional methods created by Mads Møller - Napp CMS - www.napp.dk
+Other contributors for enhancments and bug fixes via PR:
+- Mads Møller (www.napp.dk)
