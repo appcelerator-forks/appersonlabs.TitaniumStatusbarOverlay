@@ -10,6 +10,9 @@
 @interface MattappStatusbarModule : TiModule <MTStatusBarOverlayDelegate>
 {
     MTStatusBarOverlay *overlay;
+    BOOL *overlayVisible;
 }
+
+@property (nonatomic) BOOL *overlayVisible;
 
 @end

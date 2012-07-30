@@ -11,6 +11,10 @@
 
 @implementation MattappStatusbarModule
 
+
+
+@synthesize overlayVisible = _overlayVisible;
+
 #pragma mark Internal
 
 // this is generated for your module, please do not change it
@@ -34,6 +38,7 @@
 		TiThreadPerformOnMainThread(^{[self loadingOverlay];}, YES);
 	} else {
         [self loadingOverlay];
+        [self setOverlayVisible: NO];
     }
 
 	// this method is called when the module is first loaded
@@ -225,6 +230,16 @@
     }
 }
 
+
+-(NSNumber*)isOverlayVisible {
+    if(self.overlayVisible){
+        return NUMBOOL(YES); 
+    } else {
+        return NUMBOOL(NO);
+    }
+}
+
+
 -(void)hide:(id)arg
 {
     if (![NSThread isMainThread]) {
@@ -254,4 +269,19 @@
     
     [overlay show];
 }
+
+
+#pragma mark Delegate Protocol
+
+- (void)statusBarOverlayDidHide
+{
+    [self setOverlayVisible: NO];
+}
+
+- (void)statusBarOverlayDidSwitchFromOldMessage:(NSString *)oldMessage toNewMessage:(NSString *)newMessage
+{
+    [self setOverlayVisible: YES];
+}
+
+
 @end

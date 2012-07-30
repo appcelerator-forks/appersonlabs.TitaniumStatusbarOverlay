@@ -1,14 +1,3 @@
-// open a single window
-var win = Ti.UI.createWindow({
-	backgroundColor:'white'
-});
-win.open();
-
-//Ti.UI.iPhone.statusBarStyle = Ti.UI.iPhone.StatusBar.DEFAULT; //OPAQUE_BLACK; //TRANSLUCENT_BLACK;
-
-var statusbaroverlay = require('mattapp.statusbar');
-
-
 //////////////////////// API START //////////////////////// 
 
 
@@ -62,17 +51,38 @@ var statusbaroverlay = require('mattapp.statusbar');
 //////////////////////// API END //////////////////////// 
 
 
+// open a single window
+var win = Ti.UI.createWindow({
+	backgroundColor:'white'
+});
+win.open();
 
-//EXAMPLE USE - simulate a posting
-var statusbaroverlay = require('mattapp.statusbar');
-statusbaroverlay.postMessage("Posting to Twitter");
+//Ti.UI.iPhone.statusBarStyle = Ti.UI.iPhone.StatusBar.DEFAULT; //OPAQUE_BLACK; //TRANSLUCENT_BLACK;
+var statusBarOverlayActive = false;
+try{
+	if(Ti.Platform.osname == 'iPhone OS'){
+		var statusbaroverlay = require('mattapp.statusbar');
+		statusBarOverlayActive = true;
+	}
+}catch(e){
+	Ti.API.error("Nope, statusbar is not there !");
+}
 
-setTimeout(function(){
-	statusbaroverlay.postMessageInProgress("Posting to Twitter...",3.0);
+//example usage
+if(statusBarOverlayActive){
+	statusbaroverlay.postMessage("Sync started");
+	
 	setTimeout(function(){
-		statusbaroverlay.postImmediateFinishMessage("Message was posted to Twitter", 5.0);
-		
-		//OR
-		//statusbaroverlay.postImmediateErrorMessage("Error posting to Twitter", 3.0);
-	}, 5000);
-}, 5000);
+		if(statusbaroverlay.isOverlayVisible){
+			Ti.API.debug("YES - statusbar is visible");
+			
+		}
+		statusbaroverlay.postMessageInProgress("Sync in progress...",8.0);
+		setTimeout(function(){
+			statusbaroverlay.postImmediateFinishMessage("Sync completed", 5.0);
+			
+			//OR
+			//statusbaroverlay.postImmediateErrorMessage("Error posting to Twitter", 3.0);
+		}, 5000);
+	}, 2000);
+}
